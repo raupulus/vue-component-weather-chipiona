@@ -1,0 +1,26 @@
+{
+  "name": "vue-component-wheater-chipiona",
+  "version": "0.0.1",
+  "description": "Componente con datos para estación meteorológica en tiempo real de la ciudad de Chipiona",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/fryntiz/vue-component-wheater-chipiona.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "weather",
+    "chipiona",
+    "component"
+  ],
+  "author": "Raúl Caro Pastorino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/fryntiz/vue-component-wheater-chipiona/issues"
+  },
+  "homepage": "https://gitlab.com/fryntiz/vue-component-wheater-chipiona#readme"
+}
