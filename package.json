@@ -2,10 +2,7 @@
   "name": "vue-component-wheater-chipiona",
   "version": "0.0.1",
   "description": "Componente con datos para estación meteorológica en tiempo real de la ciudad de Chipiona",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/fryntiz/vue-component-wheater-chipiona.git"
@@ -18,9 +15,23 @@
     "component"
   ],
   "author": "Raúl Caro Pastorino",
-  "license": "ISC",
   "bugs": {
     "url": "https://gitlab.com/fryntiz/vue-component-wheater-chipiona/issues"
   },
-  "homepage": "https://gitlab.com/fryntiz/vue-component-wheater-chipiona#readme"
+  "homepage": "https://gitlab.com/fryntiz/vue-component-wheater-chipiona#readme",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "vue serve NiceHandsomeButton.vue",
+    "build": "bili --name index --plugin vue --vue.css false"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.0",
+    "bili": "^5.0.5",
+    "rollup-plugin-vue": "^6.0.0-beta.10",
+    "vue-template-compiler": "^2.6.12"
+  }
 }
