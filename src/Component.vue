@@ -155,7 +155,15 @@ export default {
   }
   */
  data() {
-   return {
+    return {
+      api: {
+        domain: 'api.fryntiz.dev',
+        path: 'ws',
+        info: 'info',
+        wind: 'wind',
+        tvoc: 'tvoc',
+        uv: 'uv'
+      },
       info: {
         temperature: 29,
         timestamp: '2020-09-27',
@@ -174,13 +182,14 @@ export default {
         
       },
 
+      // Uso este objeto para el control de navegación.
       navigation: {
         info: true,
         wind: false,
         tvoc: false,
         uv: false,
       }
-   }
+    }
   },
   created() {
     //
@@ -202,17 +211,12 @@ export default {
  },
  */
  methods: {
+   /**
+    * Establece en el control de navegación el elemento activo actualmente.
+    */
     menuSelect(item) {
-      console.log(this.navigation);
-
-      Object.entries(this.navigation).forEach(([key, val]) => {
-        console.log('val: ' + val);
-
-        if (key == item) {
-          this.navigation[key] = true;
-        } else {
-          this.navigation[key] = false;
-        }
+      Object.keys(this.navigation).forEach(key => {
+        this.navigation[key] = (key == item)
       });
     }
  }
