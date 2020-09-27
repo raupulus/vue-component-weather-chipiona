@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset="utf-8" />
+<title>Demo</title>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="./v-weather-chipiona.js"></script>
+</head>
+
+<body>
+<div id="app">
+Antes
+<v-weather-chipiona></v-weather-chipiona>
+Después
+</div>
+</body>
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hola Vue!'
+  }
+})
+</script>
