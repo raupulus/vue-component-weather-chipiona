@@ -1,9 +1,9 @@
-import WeatherChipiona from "./WeatherChipiona.vue";
+import Component from "./Component.vue";
 
 function install(Vue) {
   if (install.installed) return;
   install.installed = true;
-  Vue.component("v-weather-chipiona", WeatherChipiona);
+  Vue.component("v-weather-chipiona", Component);
 }
 
 const plugin = {
@@ -20,6 +20,6 @@ if (GlobalVue) {
   GlobalVue.use(plugin);
 }
 
-WeatherChipiona.install = install;
+Component.install = install;
 
-export default WeatherChipiona;
+export default Component;
