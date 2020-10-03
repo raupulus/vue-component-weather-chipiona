@@ -33,3 +33,31 @@ descargas a tu proyecto, usas un cdn o lo traes desde npm.
 Una vez tienes Vue.js y la llamada al componente en tu web, puedes crear un 
 bloque para añadir este componente dentro de él usando la etiqueta 
 **<v-weather-chipiona></v-weather-chipiona>**
+
+## Demo example
+
+```html
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8" />
+  <title>Demo</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="./v-weather-chipiona.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <v-weather-chipiona></v-weather-chipiona>
+  </div>
+</body>
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hola Vue!'
+  }
+})
+</script>
+```
