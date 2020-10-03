@@ -60,9 +60,6 @@ bloque para añadir este componente dentro de él usando la etiqueta
 <script>
 var app = new Vue({
   el: '#app',
-  data: {
-    message: 'Hola Vue!'
-  }
 })
 </script>
 ```

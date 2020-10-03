@@ -11,11 +11,11 @@
         <div>
           <div class="resume-container-date">
             <h2 class="resume-date-dayname">
-              {{ this.info.dayName }}
+              {{ this.time.dayName }}
             </h2>
 
             <span class="resume-date-day">
-              {{ this.info.dateHumanFormat }}
+              {{ this.time.dateHumanFormat }}
             </span>
 
             <span class="icon icon-location"></span>
@@ -35,9 +35,9 @@
               </h1>
               
               <h3 class="resume-weather-desc">
-                {{ this.info.time }}
+                {{ this.time.time }}
                 <br />
-                {{ this.info.dayStatus }}
+                {{ this.time.dayStatus }}
               </h3>
             </div>
 
@@ -151,21 +151,20 @@ export default {
   */
  data() {
     return {
+      time: {
+        dateHumanFormat: '27 Septiembre 2020',
+        dayName: 'Domingo',
+        timestamp: '2020-09-27',
+        dayStatus: 'Muy Soleado',
+        time: '21:05',
+      },
       api: {
         domain: 'api.fryntiz.dev',
         path: 'ws',
-        info: 'info',
-        wind: 'wind',
-        tvoc: 'tvoc',
-        uv: 'uv'
+        endpoint: 'resume'
       },
       info: {
         temperature: 29,
-        timestamp: '2020-09-27',
-        dayName: 'Domingo',
-        dateHumanFormat: '27 Septiembre 2020',
-        dayStatus: 'Muy Soleado',
-        time: '21:05',
       },
       wind: {
         average: 0.0,
@@ -199,7 +198,7 @@ export default {
     //
   },
  mounted() {
-   console.log('Temperature: ' + this.info.temperature);
+   console.log('Component mounted');
 
   /*
    fetch('/weather').then(data => {
@@ -222,7 +221,15 @@ export default {
       Object.keys(this.navigation).forEach(key => {
         this.navigation[key] = (key == item)
       });
-    }
+    },
+    getApiData() {
+      let apiUrl = this.api.domain + '/' + this.api.path + '/' + this.api.endpoint;
+
+
+      fetch(apiUrl).then(data => {
+        console.table(data);
+      });
+    },
  }
 };
 </script>
