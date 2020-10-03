@@ -17,3 +17,19 @@ This raises a server component on port 8080 of localhost to develop it.
 ```bash
 npm run watch
 ```
+
+## Use Mode
+
+Para comenzar necesitas tener en tu proyecto (o por lo menos en la página
+dónde usarás este componente) vue.js insertado.
+
+Necesitas tener la llamada al script, utiliza la ruta adecuada según si lo 
+descargas a tu proyecto, usas un cdn o lo traes desde npm.
+
+```html
+<script src="./v-weather-chipiona.js"></script>
+``` 
+
+Una vez tienes Vue.js y la llamada al componente en tu web, puedes crear un 
+bloque para añadir este componente dentro de él usando la etiqueta 
+**<v-weather-chipiona></v-weather-chipiona>**
