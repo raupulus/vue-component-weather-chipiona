@@ -1,24 +1,14 @@
 # vue-component-wheater-chipiona
 
-## Project setup
-```
-npm install
-```
+This component adds onu widget with weather information in the town of chipiona in real time (seconds of one minute from the last reading) returning information on temperature, wind, air quality and UVA / UVB rays.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Build production
 
-### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Lints and fixes files
+## Run develop watch
 ```
-npm run lint
+npm run watch
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
