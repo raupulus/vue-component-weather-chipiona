@@ -74,19 +74,17 @@
 
             <!-- Muestra información de rayos UV -->
             <div v-show="this.navigation.uv">
-              <span class="icon icon-wind"></span>
+              <span class="icon icon-uv color-orange"></span>
 
-              Aquí UV
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              Último
+              <h1 class="resume-weather-temp">
+                {{ this.uv.index }} UV
+              </h1>
+
+              <h3 class="resume-weather-desc">
+                UVA: {{ this.uv.uva }}
+                <br />
+                UVB: {{ this.uv.uvb }}
+              </h3>
             </div>
 
 
@@ -183,7 +181,9 @@ export default {
         tvoc: 0.0,
       }, 
       uv: {
-        
+        index: 0,
+        uva: 0,
+        uvb: 0
       },
 
       // Uso este objeto para el control de navegación.
@@ -291,6 +291,10 @@ export default {
 
 .icon-uv {
   background-image: url('./assets/uv.svg');
+}
+
+.icon-uv.color-orange {
+  filter: invert(57%) sepia(41%) saturate(8000%) hue-rotate(346deg) brightness(144%) contrast(97%);
 }
 
 /* Box Resume */
@@ -445,5 +449,8 @@ export default {
 }
 .color-yellow {
   color: #fcff6b;
+}
+.color-orange {
+  color: #ffc568;
 }
 </style>
