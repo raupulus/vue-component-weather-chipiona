@@ -43,19 +43,17 @@
 
             <!-- Muestra información del viento -->
             <div v-show="this.navigation.wind">
-              <span class="icon icon-wind"></span>
+              <span class="icon icon-wind color-blue"></span>
 
-              Aquí el viento
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              Último
+              <h1 class="resume-weather-temp">
+                {{ this.wind.average }} km/h
+              </h1>
+
+              <h3 class="resume-weather-desc">
+                Min: {{ this.wind.max }} km/h
+                <br />
+                Max: {{ this.wind.max }} km/h
+              </h3>
             </div>
 
             <!-- Muestra información de calidad del aire -->
@@ -173,7 +171,12 @@ export default {
         time: '21:05',
       },
       wind: {
-
+        average: 0.0,
+        min: 0.0,
+        max: 0.0,
+        created_at: '2020-10-03 20:26:13',
+        date_human_format: '03 Octubre 2020',
+        time: '20:26:13',
       }, 
       tvoc: {
 
@@ -271,6 +274,10 @@ export default {
 
 .icon-wind {
   background-image: url('./assets/wind.svg');
+}
+
+.icon-wind.color-blue {
+  filter: invert(67%) sepia(10%) saturate(3000%) hue-rotate(156deg) brightness(104%) contrast(67%);
 }
 
 .icon-tvoc {
@@ -421,5 +428,14 @@ export default {
 	display: block;
 	margin: 10px 0 0 0;
 	text-align: center;
+}
+
+
+/* Colores */
+.color-red {
+  color: #ff0000;
+}
+.color-blue {
+  color: #2bf7ff;
 }
 </style>
