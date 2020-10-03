@@ -4,11 +4,16 @@ This component adds onu widget with weather information in the town of chipiona 
 
 ## Build production
 
-```
+This creates the elements to include directly on the web.
+
+```bash
 npm run build
 ```
 
 ## Run develop watch
-```
+
+This raises a server component on port 8080 of localhost to develop it.
+
+```bash
 npm run watch
 ```
