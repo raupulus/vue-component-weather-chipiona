@@ -58,19 +58,18 @@
 
             <!-- Muestra información de calidad del aire -->
             <div v-show="this.navigation.tvoc">
-              <span class="icon icon-wind"></span>
+              <span class="icon icon-tvoc color-yellow"></span>
+              Calidad del Aire
 
-              Aquí Calidad del aire
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              asdfasd
-              <br />
-              Último
+              <h1 class="resume-weather-temp">
+                {{ this.air_quality.quality }} %
+              </h1>
+
+              <h3 class="resume-weather-desc">
+                TVOC: {{ this.air_quality.tvoc }}
+                <br />
+                CO2-ECO2: {{ this.air_quality.co2_eco2 }}
+              </h3>
             </div>
 
             <!-- Muestra información de rayos UV -->
@@ -178,8 +177,10 @@ export default {
         date_human_format: '03 Octubre 2020',
         time: '20:26:13',
       }, 
-      tvoc: {
-
+      air_quality: {
+        quality: 100,
+        co2_eco2: 416.0,
+        tvoc: 0.0,
       }, 
       uv: {
         
@@ -282,6 +283,10 @@ export default {
 
 .icon-tvoc {
   background-image: url('./assets/tvoc.svg');
+}
+
+.icon-tvoc.color-yellow {
+  filter: invert(87%) sepia(71%) saturate(6000%) hue-rotate(346deg) brightness(104%) contrast(97%);
 }
 
 .icon-uv {
@@ -437,5 +442,8 @@ export default {
 }
 .color-blue {
   color: #2bf7ff;
+}
+.color-yellow {
+  color: #fcff6b;
 }
 </style>
