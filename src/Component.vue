@@ -73,17 +73,17 @@
             </div>
 
             <!-- Muestra información de rayos UV -->
-            <div v-show="this.navigation.uv">
+            <div v-show="this.navigation.light">
               <span class="icon icon-uv color-orange"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.uv.index }} UV
+                {{ this.light.index }} UV
               </h1>
 
               <h3 class="resume-weather-desc">
-                UVA: {{ this.uv.uva }}
+                UVA: {{ this.light.uva }}
                 <br />
-                UVB: {{ this.uv.uvb }}
+                UVB: {{ this.light.uvb }}
               </h3>
             </div>
 
@@ -122,7 +122,7 @@
             </span>
           </li>
 
-          <li :class="{active: this.navigation.uv}" @click="menuSelect('uv')">
+          <li :class="{active: this.navigation.light}" @click="menuSelect('light')">
             <i class="icon icon-uv"></i>
 
             <span class="selector-element">
@@ -167,7 +167,19 @@ export default {
         domain: 'api.fryntiz.dev',
         path: 'ws',
         endpoint: 'resume',
-        origin: 'vue-component-weather-chipiona'
+        origin: 'vue-component-weather-chipiona',
+        configuration: {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          method: 'GET',
+          mode: 'cors',
+          cache: 'default',
+          //credentials: 'same-origin',
+          redirect: 'follow',
+          //referrerPolicy: 'no-referrer',
+        }
       },
       info: {
         temperature: 29,
@@ -176,16 +188,21 @@ export default {
         average: 0.0,
         min: 0.0,
         max: 0.0,
+        direction: 'N'
       }, 
       air_quality: {
         quality: 100,
         co2_eco2: 416.0,
         tvoc: 0.0,
       }, 
-      uv: {
+      light: {
+        light: 0,
         index: 0,
         uva: 0,
         uvb: 0
+      },
+      lightning: {
+        last: '29/09/2020'
       },
 
       // Uso este objeto para el control de navegación.
@@ -193,7 +210,7 @@ export default {
         info: true,
         wind: false,
         tvoc: false,
-        uv: false,
+        ligh: false,
       }
     }
   },
@@ -202,13 +219,8 @@ export default {
   },
  mounted() {
    console.log('Component mounted');
+   
    this.getApiData();
-
-  /*
-   fetch('/weather').then(data => {
-      this.data = data;
-    });
-    */
  },
  /*
  computed() {
@@ -226,14 +238,44 @@ export default {
         this.navigation[key] = (key == item)
       });
     },
+
+    /**
+     * Obtiene los datos actualizados desde la API.
+     */
     getApiData() {
       let apiUrl = 'https://' + this.api.domain + '/' + this.api.path + '/' + this.api.endpoint;
+      const configuration = this.api.configuration;
 
-
-      fetch(apiUrl)
-        .then(stream => stream.json())
+      fetch(apiUrl, configuration)
+        .then(response => response.json())
         .then(data => {
-          console.table(data);
+          // Instante de los datos.
+          this.instant = data.instant;
+
+          // Información General.
+          this.info.temperature = data.temperature;
+          this.info.pressure = data.pressure;
+          this.info.humidity = data.humidity;
+
+          // Información del Viento.
+          this.wind.direction = data.wind_direction;
+          this.wind.average = data.wind_average;
+          this.wind.min = data.wind_min;
+          this.wind.max = data.wind_max;
+
+          // Información de luz y rayos UV/UVA/UVB.
+          this.light.light = data.light;
+          this.light.index = data.uv_index;
+          this.light.uva = data.uva;
+          this.light.uvb = data.uvb;
+
+          // Calidad del aire.
+          this.air_quality.air_quality = data.air_quality;
+          this.air_quality.tvoc = data.tvoc;
+          this.air_quality.co2_eco2 = data.eco2;
+
+          // Rayos
+          this.lightning.last = data.last_lightning_at;
         })
         .catch(error => {
           this.errorMessage = error;
