@@ -11,11 +11,11 @@
         <div>
           <div class="resume-container-date">
             <h2 class="resume-date-dayname">
-              {{ this.time.dayName }}
+              {{ this.instant.day_name }}
             </h2>
 
             <span class="resume-date-day">
-              {{ this.time.dateHumanFormat }}
+              {{ this.instant.date_human_format }}
             </span>
 
             <span class="icon icon-location"></span>
@@ -35,9 +35,9 @@
               </h1>
               
               <h3 class="resume-weather-desc">
-                {{ this.time.time }}
+                {{ this.instant.time }}
                 <br />
-                {{ this.time.dayStatus }}
+                {{ this.instant.day_status }}
               </h3>
             </div>
 
@@ -151,17 +151,23 @@ export default {
   */
  data() {
     return {
-      time: {
-        dateHumanFormat: '27 Septiembre 2020',
-        dayName: 'Domingo',
-        timestamp: '2020-09-27',
-        dayStatus: 'Muy Soleado',
-        time: '21:05',
+      instant: {
+        timestamp: "2020-10-04 20:26:31",
+        year: "2020",
+        month: "10",
+        month_name: "Octubre",
+        day: 4,
+        day_week: 0,
+        day_name: "Domingo",
+        date_human_format: "04 Octubre 2020",
+        time: "20:26:31",
+        day_status: "Noche"
       },
       api: {
         domain: 'api.fryntiz.dev',
         path: 'ws',
-        endpoint: 'resume'
+        endpoint: 'resume',
+        origin: 'vue-component-weather-chipiona'
       },
       info: {
         temperature: 29,
@@ -196,6 +202,7 @@ export default {
   },
  mounted() {
    console.log('Component mounted');
+   this.getApiData();
 
   /*
    fetch('/weather').then(data => {
@@ -220,12 +227,18 @@ export default {
       });
     },
     getApiData() {
-      let apiUrl = this.api.domain + '/' + this.api.path + '/' + this.api.endpoint;
+      let apiUrl = 'https://' + this.api.domain + '/' + this.api.path + '/' + this.api.endpoint;
 
 
-      fetch(apiUrl).then(data => {
-        console.table(data);
-      });
+      fetch(apiUrl)
+        .then(stream => stream.json())
+        .then(data => {
+          console.table(data);
+        })
+        .catch(error => {
+          this.errorMessage = error;
+          console.error("¡Error al obtener datos desde la API!", error);
+        });
     },
  }
 };
