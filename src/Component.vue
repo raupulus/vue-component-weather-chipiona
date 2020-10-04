@@ -31,7 +31,7 @@
               <span class="icon icon-sun"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.info.temperature }} ºC
+                {{ this.info.temperature | roundTo2Decimals }} ºC
               </h1>
               
               <h3 class="resume-weather-desc">
@@ -46,13 +46,13 @@
               <span class="icon icon-wind color-blue"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.wind.average }} km/h
+                {{ this.wind.average | roundTo2Decimals }} km/h
               </h1>
 
               <h3 class="resume-weather-desc">
-                Min: {{ this.wind.max }} km/h
+                Min: {{ this.wind.max | roundTo2Decimals }} km/h
                 <br />
-                Max: {{ this.wind.max }} km/h
+                Max: {{ this.wind.max | roundTo2Decimals }} km/h
               </h3>
             </div>
 
@@ -62,13 +62,13 @@
               Calidad del Aire
 
               <h1 class="resume-weather-temp">
-                {{ this.air_quality.quality }} %
+                {{ this.air_quality.quality | roundTo2Decimals }} %
               </h1>
 
               <h3 class="resume-weather-desc">
-                TVOC: {{ this.air_quality.tvoc }}
+                TVOC: {{ this.air_quality.tvoc | roundTo2Decimals }}
                 <br />
-                CO2-ECO2: {{ this.air_quality.co2_eco2 }}
+                CO2-ECO2: {{ this.air_quality.co2_eco2 | roundTo2Decimals }}
               </h3>
             </div>
 
@@ -77,13 +77,13 @@
               <span class="icon icon-uv color-orange"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.light.index }} UV
+                {{ this.light.index | roundTo2Decimals }} UV
               </h1>
 
               <h3 class="resume-weather-desc">
-                UVA: {{ this.light.uva }}
+                UVA: {{ this.light.uva | roundTo2Decimals }}
                 <br />
-                UVB: {{ this.light.uvb }}
+                UVB: {{ this.light.uvb | roundTo2Decimals }}
               </h3>
             </div>
 
@@ -182,7 +182,7 @@ export default {
         }
       },
       info: {
-        temperature: 29,
+        temperature: 29.435345,
       },
       wind: {
         average: 0.0,
@@ -210,7 +210,7 @@ export default {
         info: true,
         wind: false,
         tvoc: false,
-        ligh: false,
+        light: false,
       }
     }
   },
@@ -282,6 +282,11 @@ export default {
           console.error("¡Error al obtener datos desde la API!", error);
         });
     },
+ },
+ filters: {
+    roundTo2Decimals(num) {
+      return Math.round(num * 100) / 100;
+    }
  }
 };
 </script>
