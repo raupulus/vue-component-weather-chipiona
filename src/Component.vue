@@ -211,6 +211,10 @@ export default {
         wind: false,
         tvoc: false,
         light: false,
+      },
+
+      intervals: {
+        id_1: null
       }
     }
   },
@@ -221,6 +225,10 @@ export default {
    console.log('Component mounted');
    
    this.getApiData();
+
+   this.intervals.id_1 = setInterval(() => {
+        this.getApiData();
+    }, 65000);
  },
  /*
  computed() {
