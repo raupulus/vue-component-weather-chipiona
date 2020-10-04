@@ -11,11 +11,11 @@
         <div>
           <div class="resume-container-date">
             <h2 class="resume-date-dayname">
-              {{ this.info.dayName }}
+              {{ this.instant.day_name }}
             </h2>
 
             <span class="resume-date-day">
-              {{ this.info.dateHumanFormat }}
+              {{ this.instant.date_human_format }}
             </span>
 
             <span class="icon icon-location"></span>
@@ -31,13 +31,13 @@
               <span class="icon icon-sun"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.info.temperature }} ºC
+                {{ this.info.temperature | roundTo2Decimals }} ºC
               </h1>
               
               <h3 class="resume-weather-desc">
-                {{ this.info.time }}
+                {{ this.instant.time }}
                 <br />
-                {{ this.info.dayStatus }}
+                {{ this.instant.day_status }}
               </h3>
             </div>
 
@@ -46,13 +46,13 @@
               <span class="icon icon-wind color-blue"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.wind.average }} km/h
+                {{ this.wind.average | roundTo2Decimals }} km/h
               </h1>
 
               <h3 class="resume-weather-desc">
-                Min: {{ this.wind.max }} km/h
+                Min: {{ this.wind.max | roundTo2Decimals }} km/h
                 <br />
-                Max: {{ this.wind.max }} km/h
+                Max: {{ this.wind.max | roundTo2Decimals }} km/h
               </h3>
             </div>
 
@@ -62,28 +62,28 @@
               Calidad del Aire
 
               <h1 class="resume-weather-temp">
-                {{ this.air_quality.quality }} %
+                {{ this.air_quality.quality | roundTo2Decimals }} %
               </h1>
 
               <h3 class="resume-weather-desc">
-                TVOC: {{ this.air_quality.tvoc }}
+                TVOC: {{ this.air_quality.tvoc | roundTo2Decimals }}
                 <br />
-                CO2-ECO2: {{ this.air_quality.co2_eco2 }}
+                CO2-ECO2: {{ this.air_quality.co2_eco2 | roundTo2Decimals }}
               </h3>
             </div>
 
             <!-- Muestra información de rayos UV -->
-            <div v-show="this.navigation.uv">
+            <div v-show="this.navigation.light">
               <span class="icon icon-uv color-orange"></span>
 
               <h1 class="resume-weather-temp">
-                {{ this.uv.index }} UV
+                {{ this.light.index | roundTo2Decimals }} UV
               </h1>
 
               <h3 class="resume-weather-desc">
-                UVA: {{ this.uv.uva }}
+                UVA: {{ this.light.uva | roundTo2Decimals }}
                 <br />
-                UVB: {{ this.uv.uvb }}
+                UVB: {{ this.light.uvb | roundTo2Decimals }}
               </h3>
             </div>
 
@@ -122,7 +122,7 @@
             </span>
           </li>
 
-          <li :class="{active: this.navigation.uv}" @click="menuSelect('uv')">
+          <li :class="{active: this.navigation.light}" @click="menuSelect('light')">
             <i class="icon icon-uv"></i>
 
             <span class="selector-element">
@@ -151,39 +151,58 @@ export default {
   */
  data() {
     return {
+      instant: {
+        timestamp: "2020-10-04 20:26:31",
+        year: "2020",
+        month: "10",
+        month_name: "Octubre",
+        day: 4,
+        day_week: 0,
+        day_name: "Domingo",
+        date_human_format: "04 Octubre 2020",
+        time: "20:26:31",
+        day_status: "Noche"
+      },
       api: {
         domain: 'api.fryntiz.dev',
         path: 'ws',
-        info: 'info',
-        wind: 'wind',
-        tvoc: 'tvoc',
-        uv: 'uv'
+        endpoint: 'resume',
+        origin: 'vue-component-weather-chipiona',
+        configuration: {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          method: 'GET',
+          mode: 'cors',
+          cache: 'default',
+          //credentials: 'same-origin',
+          redirect: 'follow',
+          //referrerPolicy: 'no-referrer',
+        }
       },
       info: {
-        temperature: 29,
-        timestamp: '2020-09-27',
-        dayName: 'Domingo',
-        dateHumanFormat: '27 Septiembre 2020',
-        dayStatus: 'Muy Soleado',
-        time: '21:05',
+        temperature: 29.435345,
       },
       wind: {
         average: 0.0,
         min: 0.0,
         max: 0.0,
-        created_at: '2020-10-03 20:26:13',
-        date_human_format: '03 Octubre 2020',
-        time: '20:26:13',
+        direction: 'N'
       }, 
       air_quality: {
         quality: 100,
         co2_eco2: 416.0,
         tvoc: 0.0,
       }, 
-      uv: {
+      light: {
+        light: 0,
         index: 0,
         uva: 0,
         uvb: 0
+      },
+      lightning: {
+        last: '29/09/2020'
       },
 
       // Uso este objeto para el control de navegación.
@@ -191,7 +210,11 @@ export default {
         info: true,
         wind: false,
         tvoc: false,
-        uv: false,
+        light: false,
+      },
+
+      intervals: {
+        id_1: null
       }
     }
   },
@@ -199,13 +222,13 @@ export default {
     //
   },
  mounted() {
-   console.log('Temperature: ' + this.info.temperature);
+   console.log('Component mounted');
+   
+   this.getApiData();
 
-  /*
-   fetch('/weather').then(data => {
-      this.data = data;
-    });
-    */
+   this.intervals.id_1 = setInterval(() => {
+        this.getApiData();
+    }, 65000);
  },
  /*
  computed() {
@@ -222,6 +245,55 @@ export default {
       Object.keys(this.navigation).forEach(key => {
         this.navigation[key] = (key == item)
       });
+    },
+
+    /**
+     * Obtiene los datos actualizados desde la API.
+     */
+    getApiData() {
+      let apiUrl = 'https://' + this.api.domain + '/' + this.api.path + '/' + this.api.endpoint;
+      const configuration = this.api.configuration;
+
+      fetch(apiUrl, configuration)
+        .then(response => response.json())
+        .then(data => {
+          // Instante de los datos.
+          this.instant = data.instant;
+
+          // Información General.
+          this.info.temperature = data.temperature;
+          this.info.pressure = data.pressure;
+          this.info.humidity = data.humidity;
+
+          // Información del Viento.
+          this.wind.direction = data.wind_direction;
+          this.wind.average = data.wind_average;
+          this.wind.min = data.wind_min;
+          this.wind.max = data.wind_max;
+
+          // Información de luz y rayos UV/UVA/UVB.
+          this.light.light = data.light;
+          this.light.index = data.uv_index;
+          this.light.uva = data.uva;
+          this.light.uvb = data.uvb;
+
+          // Calidad del aire.
+          this.air_quality.air_quality = data.air_quality;
+          this.air_quality.tvoc = data.tvoc;
+          this.air_quality.co2_eco2 = data.eco2;
+
+          // Rayos
+          this.lightning.last = data.last_lightning_at;
+        })
+        .catch(error => {
+          this.errorMessage = error;
+          console.error("¡Error al obtener datos desde la API!", error);
+        });
+    },
+ },
+ filters: {
+    roundTo2Decimals(num) {
+      return Math.round(num * 100) / 100;
     }
  }
 };
