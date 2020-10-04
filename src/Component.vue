@@ -50,7 +50,7 @@
               </h1>
 
               <h3 class="resume-weather-desc">
-                Min: {{ this.wind.max | roundTo2Decimals }} km/h
+                Min: {{ this.wind.min | roundTo2Decimals }} km/h
                 <br />
                 Max: {{ this.wind.max | roundTo2Decimals }} km/h
               </h3>
@@ -278,7 +278,7 @@ export default {
           this.light.uvb = data.uvb;
 
           // Calidad del aire.
-          this.air_quality.air_quality = data.air_quality;
+          this.air_quality.quality = data.air_quality;
           this.air_quality.tvoc = data.tvoc;
           this.air_quality.co2_eco2 = data.eco2;
 
