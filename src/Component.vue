@@ -170,9 +170,6 @@ export default {
         average: 0.0,
         min: 0.0,
         max: 0.0,
-        created_at: '2020-10-03 20:26:13',
-        date_human_format: '03 Octubre 2020',
-        time: '20:26:13',
       }, 
       air_quality: {
         quality: 100,
