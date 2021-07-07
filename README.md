@@ -9,7 +9,7 @@ This component adds onu widget with weather information in the town of chipiona 
 
 ## TODO
 
-- Fix rollup export with typescript
+- Fix rollup export to standar javascript (wrapper.js)
 
 ## Project setup
 
@@ -19,7 +19,7 @@ npm install
 
 ## Build production
 
-This creates the elements to include directly on the web.
+This creates the elements to include directly on the web and import module.
 
 ```bash
 npm run build
